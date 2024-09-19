@@ -10,10 +10,10 @@
     "48": "icons/icon_48.png",
     "128": "icons/icon_128.png"
   },
-  "background": {
-    "service_worker": "background.js"
-  },
-  "chrome_url_overrides": {
-    "newtab": "index.html"
-  }
+  "content_scripts": [{
+    "matches":  ["*://*/*"],
+    "js": ["content.js"],
+    "run_at": "document_end",
+    "all_frames": true
+  }]
 }
