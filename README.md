@@ -1,15 +1,14 @@
 # <img src="public/icons/icon_48.png" width="45" align="left"> Container Timing
 
-My Chrome Extension
-
-## Features
-
-- Feature 1
-- Feature 2
+Chrome extension that sets the attribute `containertiming` to the HTML node of
+the loaded documents, and registers an observer that dumps the `container` entries
+to `console.log`.
 
 ## Install
 
-[**Chrome** extension]()
+An easy way to try is:
+1. Run in this folder `npm run watch`.
+2. Run Chromium with `--enable-blink-features=ContainerTiming --load-extension=PATH_TO_EXTENSION/build/
 
 ## Contribution
 
