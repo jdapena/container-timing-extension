@@ -1,7 +1,6 @@
 # Welcome to your Chrome Extension
 
 ## What's in this directory
-* `config/`: Webpack configuration for this project.
 * `public/`: HTML files for the override page.
     * `manifest.json`: Extension [configuration](https://developer.chrome.com/docs/extensions/mv2/manifest/).
 * `src/`: Source files for the override page. See [chrome docs](https://developer.chrome.com/docs/extensions/mv3/override/#manifest) for more details.
