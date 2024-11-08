@@ -19,20 +19,17 @@ const observer = new MutationObserver(() => {
   }
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-  if (elm = document.querySelector(selector)) {
-    startPerformanceObserve(elm);
-    // We've found our element so we don't need to keep looking
-    // TODO: Change this so we can find multiple container timing elements (maybe by setting property on them)
-    flag = true
-  } else {
-    // TODO: At some point we will need this on regardless of whether we found our element or not (due to inner containers being injected)
-    observer.observe(document.body, { attributes: false, childList: true, characterData: false, subtree: true });
-  }
-});
+if (elm = document.querySelector(selector)) {
+  startPerformanceObserve(elm);
+  // We've found our element so we don't need to keep looking
+  // TODO: Change this so we can find multiple container timing elements (maybe by setting property on them)
+  flag = true
+} else {
+  // TODO: At some point we will need this on regardless of whether we found our element or not (due to inner containers being injected)
+  observer.observe(document.body, { attributes: false, childList: true, characterData: false, subtree: true });
+}
 
 function startPerformanceObserve(elm) {
-  console.log(elm);
   const href = document.location.href
   const nativeObserver = new PerformanceObserver((list) => {
     console.log("Container timing entries from " + href)
@@ -41,6 +38,7 @@ function startPerformanceObserve(elm) {
       clearRects();
       showRectsOnScreen(list.damagedRects);
       showBoundingRect(list.intersectionRect);
+      clearRects(true)
     })
     // Now hide the rects so they're not in the way
 
@@ -76,22 +74,14 @@ function showBoundingRect(rect) {
   document.body.appendChild(div);
 }
 
-function clearRects() {
-  const fadeThenHide = (elm) => {
-    elm.animate(
-      [
-        { opacity: 1 },
-        { opacity: 0 },
-      ], {
-        duration: 1000
-      }
-    ).finished.then(() => {
-      elm.remove()
-    })
+function clearRects(withDelay = false) {
+  if (withDelay) {
+    return setTimeout(() => {
+      document.querySelectorAll('.overlay').forEach(elm => elm.remove());
+      document.querySelectorAll('.boundingRect').forEach(elm => elm.remove());
+    }, 5000);
   }
 
-  setTimeout(() => {
-    document.querySelectorAll('.overlay').forEach(elm => fadeThenHide(elm));
-    document.querySelectorAll('.boundingRect').forEach(elm => fadeThenHide(elm));
-  }, 2000)
+  document.querySelectorAll('.overlay').forEach(elm => elm.remove());
+  document.querySelectorAll('.boundingRect').forEach(elm => elm.remove());
 }
