@@ -1,17 +1,18 @@
 // Don't re-run operation after selector has been seen
 let flag = false;
 // Default selector
-let selector = 'html';
+let selector = '[elementtiming="foo"]';
 // Container Timing element we've found
 let elm;
 
 // Pull the selector out of the settings
 chrome.storage.sync.get(
-  { selector: 'html' },
+  { selector: '[elementtiming="foo"]' },
   (items) => {
-    selector = items.selector || 'html';
+    selector = items.selector || '[elementtiming="foo"]';
   }
 );
+
 
 const observer = new MutationObserver(() => {
   if ((elm = document.querySelector(selector)) && !flag) {
@@ -19,21 +20,12 @@ const observer = new MutationObserver(() => {
   }
 });
 
-if (elm = document.querySelector(selector)) {
-  startPerformanceObserve(elm);
-  // We've found our element so we don't need to keep looking
-  // TODO: Change this so we can find multiple container timing elements (maybe by setting property on them)
-  flag = true
-} else {
-  // TODO: At some point we will need this on regardless of whether we found our element or not (due to inner containers being injected)
-  observer.observe(document.body, { attributes: false, childList: true, characterData: false, subtree: true });
-}
+observer.observe(document.documentElement, { attributes: false, childList: true, characterData: false, subtree: true });
 
 function startPerformanceObserve(elm) {
   const href = document.location.href
   const nativeObserver = new PerformanceObserver((list) => {
     console.log("Container timing entries from " + href)
-    console.log(list.getEntries());
     list.getEntries().forEach((list) => {
       clearRects();
       showRectsOnScreen(list.damagedRects);

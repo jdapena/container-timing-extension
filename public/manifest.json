@@ -23,6 +23,8 @@
         "content.css"
       ],
       "js": [
+        "setVars.js",
+        "polyfill.js",
         "content.js"
       ],
       "run_at": "document_start",
