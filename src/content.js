@@ -1,15 +1,15 @@
 // Don't re-run operation after selector has been seen
 let flag = false;
 // Default selector
-let selector = '[elementtiming="foo"]';
+let selector = 'html';
 // Container Timing element we've found
 let elm;
 
 // Pull the selector out of the settings
 chrome.storage.sync.get(
-  { selector: '[elementtiming="foo"]' },
+  { selector: 'html' },
   (items) => {
-    selector = items.selector || '[elementtiming="foo"]';
+    selector = items.selector || 'html';
   }
 );
 
