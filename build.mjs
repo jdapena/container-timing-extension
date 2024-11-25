@@ -16,10 +16,18 @@ const context = await esbuild
     plugins: [
         copy({
             resolveFrom: 'cwd',
-            assets: {
+            assets: [{
                 from: ["./public/**/*"],
                 to: ["./build"]
+            }, {
+                from: ["./container-timing/polyfill/polyfill.js"],
+                to: ["./build"]
             },
+            {
+                from: ["./src/setVars.js"],
+                to: ["./build"]
+            }
+          ],
             watch
 
         })
