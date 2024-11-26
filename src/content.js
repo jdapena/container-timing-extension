@@ -6,21 +6,33 @@ let selector = 'html';
 let elm;
 
 // Pull the selector out of the settings
-chrome.storage.sync.get(
-  { selector: 'html' },
-  (items) => {
-    selector = items.selector || 'html';
-  }
-);
+(async function fetchSelector() {
+  const result = await new Promise((resolve, reject) => {
+    chrome.storage.sync.get(
+      { selector: 'html' },
+      (items) => {
+        if (chrome.runtime.lastError) {
+          reject(chrome.runtime.lastError);
+        } else {
+          resolve(items.selector);
+        }
+      }
+    );
+  });
+  selector = result || 'html';
 
-
-const observer = new MutationObserver(() => {
-  if ((elm = document.querySelector(selector)) && !flag) {
+  if (elm = document.querySelector(selector)) {
     startPerformanceObserve(elm)
   }
-});
 
-observer.observe(document.documentElement, { attributes: false, childList: true, characterData: false, subtree: true });
+  const observer = new MutationObserver(() => {
+    if ((elm = document.querySelector(selector)) && !flag) {
+      startPerformanceObserve(elm)
+    }
+  });
+  
+  observer.observe(document.documentElement, { attributes: false, childList: true, characterData: false, subtree: true });
+})();
 
 function startPerformanceObserve(elm) {
   const href = document.location.href
