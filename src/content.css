@@ -1,9 +1,9 @@
 .overlay {
-    position:absolute;
+    position: fixed;
     background-color: #0000FF64;
 }
 
 .boundingRect {
-    position: absolute;
+    position: fixed;
     border: 3px dashed #ff0000a8;
 }
